@@ -437,3 +437,77 @@
                 updateSubmitButton();
             }
         }
+        function updateStudentNumbers() {
+            const rows = document.querySelectorAll('tr[data-student-id]');
+            const existingIds = Array.from(rows).map(row => parseInt(row.getAttribute('data-student-id'))).sort((a, b) => a - b);
+            
+            // Find the next available ID (first missing number or next in sequence)
+            nextAvailableId = 1;
+            for (let id of existingIds) {
+                if (id === nextAvailableId) {
+                    nextAvailableId++;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        function editStudent(button) {
+            const studentId = button.getAttribute('data-student-id');
+            const popup = document.getElementById('editPopup');
+            const title = document.getElementById('editTitle');
+            const input = document.getElementById('editInput');
+            
+            title.textContent = `Edit details of Student ${studentId}`;
+            input.value = '';
+            input.setAttribute('data-student-id', studentId);
+            
+            popup.classList.add('show');
+            input.focus();
+        }
+
+        function handleEditOk() {
+            const input = document.getElementById('editInput');
+            const studentId = input.getAttribute('data-student-id');
+            
+            if (input.value.trim()) {
+                showSuccessMessage(`Student ${studentId} data updated successfully`);
+                closeEditPopup();
+            } else {
+                // Could add validation message here
+                input.focus();
+            }
+        }
+
+        function closeEditPopup() {
+            const popup = document.getElementById('editPopup');
+            popup.classList.remove('show');
+        }
+
+        function showSuccessMessage(message, isError = false) {
+            const messageDiv = document.getElementById('successMessage');
+            messageDiv.textContent = message;
+            messageDiv.style.background = isError ? 
+                'linear-gradient(135deg, #f44336, #d32f2f)' : 
+                'linear-gradient(135deg, #4CAF50, #45a049)';
+            messageDiv.classList.add('show');
+            
+            setTimeout(() => {
+                messageDiv.classList.remove('show');
+            }, 3000);
+        }
+
+         // Keyboard event handling for edit popup
+        document.addEventListener('keydown', function(e) {
+            const popup = document.getElementById('editPopup');
+            if (popup.classList.contains('show')) {
+                if (e.key === 'Enter') {
+                    handleEditOk();
+                } else if (e.key === 'Escape') {
+                    closeEditPopup();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
