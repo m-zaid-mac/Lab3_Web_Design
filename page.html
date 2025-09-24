@@ -398,3 +398,42 @@
 
             updateSubmitButton();
         }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submitBtn');
+            const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
+            
+            if (checkedBoxes.length > 0) {
+                submitBtn.disabled = false;
+                submitBtn.classList.add('enabled');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.remove('enabled');
+            }
+        }
+
+        function toggleExpandableRow(icon) {
+            const row = icon.getAttribute('data-row');
+            const expandableRow = document.querySelector(`.expandable-row[data-parent="${row}"]`);
+            const expandableContent = expandableRow.querySelector('.expandable-content');
+            
+            icon.classList.toggle('rotated');
+            expandableContent.classList.toggle('show');
+        }
+
+        function deleteStudent(button) {
+            const studentId = button.getAttribute('data-student-id');
+            const mainRow = document.querySelector(`tr[data-student-id="${studentId}"]`);
+            const expandableRow = document.querySelector(`.expandable-row[data-parent="${studentId}"]`);
+            
+            if (mainRow && expandableRow) {
+                mainRow.remove();
+                expandableRow.remove();
+                
+                // Update next available ID to maintain order
+                updateStudentNumbers();
+                
+                showSuccessMessage(`Student ${studentId} Record deleted successfully`);
+                updateSubmitButton();
+            }
+        }
