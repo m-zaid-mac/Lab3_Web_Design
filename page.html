@@ -21,4 +21,40 @@
         <button class="btn btn-primary" id="addStudentBtn">Add New Student</button>
         <button class="btn btn-submit" id="submitBtn" disabled>Submit</button>
     </div>
-    
+     <div class="table-container">
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Expand</th>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Advisor</th>
+                    <th>Award Status</th>
+                    <th>Semester</th>
+                    <th>Type</th>
+                    <th>Budget</th>
+                    <th>Percentage</th>
+                    <th>Delete</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody">
+                <tr data-student-id="1">
+                    <td class="checkbox-container">
+                        <input type="checkbox" class="row-checkbox" data-row="1">
+                    </td>
+                    <td>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2334C759'%3E%3Cpath d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z'/%3E%3C/svg%3E" alt="Expand" class="expand-icon" data-row="1">
+                    </td>
+                    <td>1</td>
+                    <td>Student 1</td>
+                    <td>Teacher 1</td>
+                    <td>Approved</td>
+                    <td>Fall 2024</td>
+                    <td>TA</td>
+                    <td>$5000</td>
+                    <td>100%</td>
+                    <td class="delete-column"></td>
+                    <td class="edit-column"></td>
+                </tr>
