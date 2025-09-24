@@ -196,3 +196,75 @@
             </tbody>
         </table>
     </div>
+   
+    <!-- Edit Popup -->
+    <div class="popup" id="editPopup">
+        <div class="popup-content">
+            <h3 id="editTitle">Edit Student Details</h3>
+            <input type="text" id="editInput" placeholder="Enter new details...">
+            <div class="popup-buttons">
+                <button class="btn btn-primary" id="editOkBtn">OK</button>
+                <button class="btn btn-delete" id="editCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let studentCounter = 3;
+        let nextAvailableId = 4;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSubmitButton();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Add new student button
+            document.getElementById('addStudentBtn').addEventListener('click', addNewStudent);
+
+            // Submit button (placeholder functionality)
+            document.getElementById('submitBtn').addEventListener('click', function() {
+                if (!this.disabled) {
+                    showSuccessMessage('Data submitted successfully!');
+                }
+            });
+             // Checkbox change events
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('row-checkbox')) {
+                    handleRowSelection(e.target);
+                }
+            });
+
+            // Expand icon clicks
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('expand-icon')) {
+                    toggleExpandableRow(e.target);
+                }
+            });
+
+            // Delete button clicks
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('btn-delete') && !e.target.id.startsWith('edit')) {
+                    deleteStudent(e.target);
+                }
+            });
+
+            // Edit button clicks
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('btn-edit')) {
+                    editStudent(e.target);
+                }
+            });
+
+            // Edit popup events
+            document.getElementById('editOkBtn').addEventListener('click', handleEditOk);
+            document.getElementById('editCancelBtn').addEventListener('click', closeEditPopup);
+            
+            // Close popup when clicking outside
+            document.getElementById('editPopup').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeEditPopup();
+                }
+            });
+        }
