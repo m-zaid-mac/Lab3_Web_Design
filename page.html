@@ -268,3 +268,93 @@
                 }
             });
         }
+        // func to add a new student
+        function addNewStudent() {
+            try {
+                const tbody = document.getElementById('studentTableBody');
+                const studentId = nextAvailableId;
+                
+                // Create main row
+                const newRow = document.createElement('tr');
+                newRow.setAttribute('data-student-id', studentId);
+                
+                const budgets = ['$4800', '$5000', '$5200', '$4500', '$5500'];
+                const percentages = ['90%', '95%', '100%', '85%', '88%'];
+                const statuses = ['Approved', 'Under Review', 'Pending', 'Approved'];
+                const semesters = ['Fall 2024', 'Spring 2025', 'Summer 2025'];
+                const types = ['TA', 'RA', 'GA'];
+                
+                newRow.innerHTML = `
+                    <td class="checkbox-container">
+                        <input type="checkbox" class="row-checkbox" data-row="${studentId}">
+                    </td>
+                    <td>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2334C759'%3E%3Cpath d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z'/%3E%3C/svg%3E" alt="Expand" class="expand-icon" data-row="${studentId}">
+                    </td>
+                    <td>${studentId}</td>
+                    <td>Student ${studentId}</td>
+                    <td>Teacher ${studentId}</td>
+                    <td>${statuses[Math.floor(Math.random() * statuses.length)]}</td>
+                    <td>${semesters[Math.floor(Math.random() * semesters.length)]}</td>
+                    <td>${types[Math.floor(Math.random() * types.length)]}</td>
+                    <td>${budgets[Math.floor(Math.random() * budgets.length)]}</td>
+                    <td>${percentages[Math.floor(Math.random() * percentages.length)]}</td>
+                    <td class="delete-column"></td>
+                    <td class="edit-column"></td>
+                `;
+
+                // Create expandable row
+                const expandableRow = document.createElement('tr');
+                expandableRow.className = 'expandable-row';
+                expandableRow.setAttribute('data-parent', studentId);
+                
+                const programs = ['Computer Science MS', 'Data Science PhD', 'Software Engineering MS', 'Information Systems MS'];
+                const gpas = ['3.85', '3.92', '3.78', '3.95', '3.88'];
+                const researchAreas = ['Machine Learning', 'Natural Language Processing', 'Web Development', 'Data Analytics', 'Cybersecurity'];
+                
+                expandableRow.innerHTML = `
+                    <td colspan="12">
+                        <div class="expandable-content">
+                            <h4>Additional Details for Student ${studentId}</h4>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <div class="detail-label">Email</div>
+                                    <div class="detail-value">student${studentId}@university.edu</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Program</div>
+                                    <div class="detail-value">${programs[Math.floor(Math.random() * programs.length)]}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">GPA</div>
+                                    <div class="detail-value">${gpas[Math.floor(Math.random() * gpas.length)]}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Start Date</div>
+                                    <div class="detail-value">${new Date().toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Research Area</div>
+                                    <div class="detail-value">${researchAreas[Math.floor(Math.random() * researchAreas.length)]}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Status</div>
+                                    <div class="detail-value">Active</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+
+                tbody.appendChild(newRow);
+                tbody.appendChild(expandableRow);
+                
+                studentCounter++;
+                nextAvailableId++;
+                
+                showSuccessMessage(`Student ${studentId} Record added successfully`);
+                
+            } catch (error) {
+                showSuccessMessage('Error: Failed to add student record', true);
+            }
+        }
