@@ -358,3 +358,43 @@
                 showSuccessMessage('Error: Failed to add student record', true);
             }
         }
+
+        // function for Row Selection
+        function handleRowSelection(checkbox) {
+            const row = checkbox.closest('tr');
+            const studentId = checkbox.getAttribute('data-row');
+            const deleteColumn = row.querySelector('.delete-column');
+            const editColumn = row.querySelector('.edit-column');
+
+            if (checkbox.checked) {
+                // Select row
+                row.classList.add('selected');
+                
+                // Add delete button
+                if (!deleteColumn.querySelector('.btn-delete')) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'btn btn-delete';
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.setAttribute('data-student-id', studentId);
+                    deleteColumn.appendChild(deleteBtn);
+                }
+                
+                // Add edit button
+                if (!editColumn.querySelector('.btn-edit')) {
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'btn btn-edit';
+                    editBtn.textContent = 'Edit';
+                    editBtn.setAttribute('data-student-id', studentId);
+                    editColumn.appendChild(editBtn);
+                }
+            } else {
+                // Deselect row
+                row.classList.remove('selected');
+                
+                // Remove buttons
+                deleteColumn.innerHTML = '';
+                editColumn.innerHTML = '';
+            }
+
+            updateSubmitButton();
+        }
