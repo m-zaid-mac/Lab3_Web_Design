@@ -21,7 +21,8 @@
         <button class="btn btn-primary" id="addStudentBtn">Add New Student</button>
         <button class="btn btn-submit" id="submitBtn" disabled>Submit</button>
     </div>
-     <div class="table-container">
+
+    <div class="table-container">
         <table id="studentTable">
             <thead>
                 <tr>
@@ -196,7 +197,7 @@
             </tbody>
         </table>
     </div>
-   
+
     <!-- Edit Popup -->
     <div class="popup" id="editPopup">
         <div class="popup-content">
@@ -205,6 +206,17 @@
             <div class="popup-buttons">
                 <button class="btn btn-primary" id="editOkBtn">OK</button>
                 <button class="btn btn-delete" id="editCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Popup -->
+    <div class="popup" id="messagePopup">
+        <div class="popup-content">
+            <h3 id="messageTitle">Message</h3>
+            <p id="messageText"></p>
+            <div class="popup-buttons">
+                <button class="btn btn-primary" id="messageOkBtn">OK</button>
             </div>
         </div>
     </div>
@@ -229,7 +241,8 @@
                     showSuccessMessage('Data submitted successfully!');
                 }
             });
-             // Checkbox change events
+
+            // Checkbox change events
             document.addEventListener('change', function(e) {
                 if (e.target.classList.contains('row-checkbox')) {
                     handleRowSelection(e.target);
@@ -261,14 +274,24 @@
             document.getElementById('editOkBtn').addEventListener('click', handleEditOk);
             document.getElementById('editCancelBtn').addEventListener('click', closeEditPopup);
             
+            // Message popup events
+            document.getElementById('messageOkBtn').addEventListener('click', closeMessagePopup);
+            
             // Close popup when clicking outside
             document.getElementById('editPopup').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeEditPopup();
                 }
             });
+
+            // Close message popup when clicking outside
+            document.getElementById('messagePopup').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeMessagePopup();
+                }
+            });
         }
-        // func to add a new student
+
         function addNewStudent() {
             try {
                 const tbody = document.getElementById('studentTableBody');
@@ -352,14 +375,13 @@
                 studentCounter++;
                 nextAvailableId++;
                 
-                showSuccessMessage(`Student ${studentId} Record added successfully`);
+                showMessagePopup(`Student ${studentId} Record added successfully`);
                 
             } catch (error) {
-                showSuccessMessage('Error: Failed to add student record', true);
+                showMessagePopup('Error: Failed to add student record');
             }
         }
 
-        // function for Row Selection
         function handleRowSelection(checkbox) {
             const row = checkbox.closest('tr');
             const studentId = checkbox.getAttribute('data-row');
@@ -433,10 +455,11 @@
                 // Update next available ID to maintain order
                 updateStudentNumbers();
                 
-                showSuccessMessage(`Student ${studentId} Record deleted successfully`);
+                showMessagePopup(`Student ${studentId} Record deleted successfully`);
                 updateSubmitButton();
             }
         }
+
         function updateStudentNumbers() {
             const rows = document.querySelectorAll('tr[data-student-id]');
             const existingIds = Array.from(rows).map(row => parseInt(row.getAttribute('data-student-id'))).sort((a, b) => a - b);
@@ -470,17 +493,26 @@
             const input = document.getElementById('editInput');
             const studentId = input.getAttribute('data-student-id');
             
-            if (input.value.trim()) {
-                showSuccessMessage(`Student ${studentId} data updated successfully`);
-                closeEditPopup();
-            } else {
-                // Could add validation message here
-                input.focus();
-            }
+            // Always show success message regardless of input content
+            showMessagePopup(`Student ${studentId} data updated successfully`);
+            closeEditPopup();
         }
 
         function closeEditPopup() {
             const popup = document.getElementById('editPopup');
+            popup.classList.remove('show');
+        }
+
+        function showMessagePopup(message) {
+            const popup = document.getElementById('messagePopup');
+            const messageText = document.getElementById('messageText');
+            
+            messageText.textContent = message;
+            popup.classList.add('show');
+        }
+
+        function closeMessagePopup() {
+            const popup = document.getElementById('messagePopup');
             popup.classList.remove('show');
         }
 
@@ -497,14 +529,22 @@
             }, 3000);
         }
 
-         // Keyboard event handling for edit popup
+        // Keyboard event handling for popups
         document.addEventListener('keydown', function(e) {
-            const popup = document.getElementById('editPopup');
-            if (popup.classList.contains('show')) {
+            const editPopup = document.getElementById('editPopup');
+            const messagePopup = document.getElementById('messagePopup');
+            
+            if (editPopup.classList.contains('show')) {
                 if (e.key === 'Enter') {
                     handleEditOk();
                 } else if (e.key === 'Escape') {
                     closeEditPopup();
+                }
+            }
+            
+            if (messagePopup.classList.contains('show')) {
+                if (e.key === 'Enter' || e.key === 'Escape') {
+                    closeMessagePopup();
                 }
             }
         });
