@@ -111,3 +111,50 @@ body {
   opacity: 0.6;
   transform: none !important;
 }
+
+.table-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+th {
+  padding: 18px 12px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 13px;
+}
+
+tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+tbody tr.selected {
+  background-color: #fff3cd !important;
+  border-left: 4px solid #ffc107;
+}
+
+td {
+  padding: 15px 12px;
+  vertical-align: middle;
+}
