@@ -308,3 +308,58 @@ input[type="checkbox"] {
   justify-content: center;
 }
 
+.success-message {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  display: none;
+  animation: slideInTop 0.5s ease-out;
+}
+
+@keyframes slideInTop {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.success-message.show {
+  display: block;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .controls {
+      flex-direction: column;
+      align-items: stretch;
+  }
+  
+  .btn {
+      width: 100%;
+      margin-bottom: 10px;
+  }
+
+  table {
+      font-size: 12px;
+  }
+
+  th, td {
+      padding: 10px 8px;
+  }
+
+  .detail-grid {
+      grid-template-columns: 1fr;
+  }
+}
+
